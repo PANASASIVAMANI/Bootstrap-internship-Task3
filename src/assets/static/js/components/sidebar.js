@@ -125,9 +125,9 @@ class Sidebar {
       this.sidebarEL.classList.remove("active")
     }
 
-    // reset
+    // reset — always unlock scroll on resize
     this.deleteBackdrop()
-    this.toggleOverflowBody(true)
+    this.lockBodyScroll(false)
   }
 
   /**
@@ -149,7 +149,7 @@ class Sidebar {
     this.sidebarEL.classList.add("active")
     this.sidebarEL.classList.remove("inactive")
     this.createBackdrop()
-    this.toggleOverflowBody()
+    this.lockBodyScroll(true)
   }
 
   /**
@@ -159,7 +159,7 @@ class Sidebar {
     this.sidebarEL.classList.remove("active")
     this.sidebarEL.classList.add("inactive")
     this.deleteBackdrop()
-    this.toggleOverflowBody()
+    this.lockBodyScroll(false)
   }
 
   /**
@@ -195,6 +195,24 @@ class Sidebar {
       body.style.overflowY = sidebarState ? "hidden" : "auto"
     } else {
       body.style.overflowY = active ? "auto" : "hidden"
+    }
+  }
+
+  /**
+   * Lock / Unlock Body Scroll (mobile sidebar open/close)
+   * Explicitly sets overflow on both body and html to prevent edge-case
+   * scroll-lock bugs after sidebar close on mobile browsers.
+   */
+  lockBodyScroll(lock) {
+    if (isDesktop(window)) return;
+    const body = document.querySelector("body")
+    const html = document.documentElement
+    if (lock) {
+      body.style.overflowY = "hidden"
+      html.style.overflowY = "hidden"
+    } else {
+      body.style.overflowY = ""
+      html.style.overflowY = ""
     }
   }
 
