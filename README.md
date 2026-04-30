@@ -1,136 +1,157 @@
-<h1 align="center">Mazer Dashboard</h1>
+﻿# ShopDash — E-Commerce Analytics Dashboard
+### Task 3 | Front-End Skill Assessment | KeshavSoft Internship
 
-![Mazer Screenshot](https://user-images.githubusercontent.com/45036724/167523601-9d20fb17-1989-488f-b619-cb53c0db8898.png)
+> A fully customized, data-driven admin dashboard built on top of [Mazer](https://github.com/zuramai/mazer) — an open-source Bootstrap 5 template.
 
-<p align="center">Mazer is an Admin Dashboard Template that can help you develop faster. Made with Bootstrap 5. No jQuery dependency.</p>
-<div align="center">
+---
 
-[![All Contributors](https://img.shields.io/github/contributors/zuramai/mazer)](https://github.com/zuramai/mazer/graphs/contributors)
-![GitHub last commit](https://img.shields.io/github/last-commit/zuramai/mazer.svg)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/zuramai/mazer)
-[![License](https://img.shields.io/github/license/zuramai/mazer.svg)](LICENSE)
+## 🖥️ Live Preview
 
-</div>
+Run locally using: `npm run dev` → [http://localhost:5173](http://localhost:5173)
 
-<p align="center">
-	<a href="http://zuramai.github.io/mazer/demo">Demo Page</a>&nbsp;&nbsp;&nbsp;
-	<a href="http://zuramai.github.io/mazer/docs">Documentation Page</a>&nbsp;&nbsp;&nbsp;
-	<a href="https://github.com/zuramai/mazer/blob/main/README_INDONESIAN.md">Indonesian README</a>&nbsp;&nbsp;&nbsp;
-</p>
+---
 
+## 📸 Pages
 
-## Installation
+| Page | Route | Description |
+|------|-------|-------------|
+| **Dashboard** | `/` | KPI stats, revenue chart, orders table, top products & customers |
+| **Analytics** | `/analytics.html` | Monthly bar chart, category pie chart, product performance table |
+| **Products** | `/products.html` | Full product catalog with stock and rating display |
+| **Orders** | `/orders.html` | All orders with live status filter buttons |
+| **Customers** | `/customers.html` | Customer cards with order history & total spend |
+| **Settings** | `/settings.html` | Store configuration form with notification toggles |
 
-### Using a ready-made built (recommended)
+---
 
-Download the latest release from the [releases page](https://github.com/zuramai/mazer/releases "releases page").
-Open the index HTML file and explore the source code.
+## ⚙️ Tech Stack
 
-### Building yourself
+| Tool | Purpose |
+|------|---------|
+| [Mazer](https://github.com/zuramai/mazer) | Base Bootstrap 5 admin template (MIT Licensed) |
+| Bootstrap 5 | Layout, grid, components |
+| Vite | Dev server & asset bundler |
+| Nunjucks | HTML templating engine (sidebar, layouts) |
+| Chart.js v4 | Line, bar, donut, and pie charts |
+| Vanilla ES6 JS | `fetch()` API data binding, DOM manipulation |
+| SCSS | Custom theme overrides |
 
-1. Clone the repository 
-```sh
-git clone https://github.com/zuramai/mazer
+---
+
+## 📁 Project Structure
+
+```
+Bootstrap-Task3/
+├── src/
+│   ├── assets/
+│   │   ├── js/              # Mazer core JS
+│   │   ├── scss/
+│   │   │   └── pages/
+│   │   │       └── shopdash.scss   # ✨ Custom ShopDash styles
+│   │   └── static/
+│   │       ├── data.json           # ✨ Sample e-commerce data
+│   │       └── js/
+│   │           ├── chart.umd.js    # Chart.js library
+│   │           └── pages/
+│   │               └── shopdash.js # ✨ Main data-binding logic
+│   ├── layouts/             # Nunjucks layout templates
+│   ├── index.html           # ✨ Dashboard (customized)
+│   ├── analytics.html       # ✨ Analytics page (new)
+│   ├── orders.html          # ✨ Orders page (new)
+│   ├── products.html        # ✨ Products page (new)
+│   ├── customers.html       # ✨ Customers page (new)
+│   ├── settings.html        # ✨ Settings page (new)
+│   └── sidebar-items.json   # ✨ Custom sidebar navigation
+├── vite.config.js           # Updated with ShopDash title
+└── package.json
+```
+*Files marked with ✨ are new or significantly customized.*
+
+---
+
+## 🔄 Data Binding Logic
+
+All dashboard data is loaded dynamically from a single source:
+
+**`src/assets/static/data.json`**
+
+The JavaScript file **`src/assets/static/js/pages/shopdash.js`** uses the native ES6 `fetch()` API to retrieve this JSON and populate the UI:
+
+```js
+async function init() {
+    const response = await fetch('assets/static/data.json');
+    const data = await response.json();
+
+    renderStats(data.stats);          // KPI cards
+    renderRevenueChart(data.revenueChart);  // Line chart
+    renderCategoryChart(data.categoryChart); // Donut chart
+    renderOrders(data.recentOrders);  // Orders table
+    renderTopProducts(data.topProducts); // Product list
+    renderTopCustomers(data.topCustomers); // Customer cards
+}
 ```
 
-2. Install dependencies
-```sh
-yarn install
-# OR
-npm install
+### Data Schema (`data.json`)
+
+```json
+{
+  "stats": { "revenue": {...}, "orders": {...}, "customers": {...}, "products": {...} },
+  "recentOrders": [ { "id", "customer", "product", "date", "amount", "status" }, ... ],
+  "topProducts":  [ { "name", "category", "sales", "revenue", "stock", "rating" }, ... ],
+  "revenueChart": { "labels": [...], "data": [...] },
+  "categoryChart": { "labels": [...], "data": [...] },
+  "topCustomers": [ { "name", "email", "totalOrders", "totalSpent", "avatar" }, ... ]
+}
 ```
 
-3. Run it locally
-```sh
+---
+
+## 🎨 UI Customizations Made
+
+1. **Sidebar** — Rebuilt `sidebar-items.json` for ShopDash navigation (Dashboard, Analytics, Store Management, System).
+2. **Theme** — Customized `_variables.scss` for an indigo/blue ShopDash palette. Added `shopdash.scss` with stat card accent borders, icon backgrounds, customer avatars, and fade-up animations.
+3. **Dashboard** — Replaced the original "Profile Statistics" page with a full e-commerce KPI dashboard.
+4. **New Pages** — Created `analytics.html`, `orders.html`, `products.html`, `customers.html`, and `settings.html` from scratch.
+5. **Vite Config** — Updated `web_title` to "ShopDash | E-Commerce Dashboard".
+6. **Charts** — Integrated Chart.js (line, bar, doughnut, pie) on Dashboard and Analytics pages.
+7. **Interactive Filters** — Orders page has status filter buttons (All / Delivered / Processing / Shipped / Cancelled) that dynamically filter without reloading.
+
+---
+
+## 🚀 Setup & Run
+
+```bash
+# 1. Clone the repository
+git clone <your-forked-repo-url>
+cd Bootstrap-Task3
+
+# 2. Install dependencies
+npm install --legacy-peer-deps --ignore-scripts
+
+# 3. Run the development server
 npm run dev
+
+# 4. Open in browser
+# → http://localhost:5173/
 ```
 
-4. Open `http://localhost:5173` in your browser
+> **Note:** You must use `npm run dev` to run the project. Double-clicking `index.html` will **not** work because the project uses Vite for asset bundling and Nunjucks for templating.
 
-### Building with Docker
+---
 
-- Clone the repository `git clone https://github.com/zuramai/mazer`
-- Make sure you have Docker installed and run:
-    - `docker build -t mazer-frontend .`
-    - `docker run -it -d -p 5173:80 --name mazer mazer-frontend`
-    - Open `http://localhost:5173`
-### Using CDN 
-Simple example using CDN from [jsdelivr.net](https://www.jsdelivr.com/).
+## ✅ Assessment Checklist
 
-```html
-<!DOCTYPE html>
-<html lang="en">
+- [x] Forked from `zuramai/mazer` (MIT licensed)
+- [x] UI/UX customized — new theme, colors, sidebar, animations
+- [x] Data-driven — all components rendered from `data.json` via `fetch()`
+- [x] Bootstrap 5 components — cards, tables, badges, forms, grids
+- [x] ES6 JavaScript — `fetch()`, `async/await`, arrow functions, template literals
+- [x] Fully responsive — tested on mobile and desktop
+- [x] New pages created — Analytics, Orders, Products, Customers, Settings
+- [x] Clean, commented code
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+---
 
-    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/svg/favicon.svg" type="image/x-icon">
+## 📝 License
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/css/app.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/css/app-dark.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/css/iconly.css">
-</head>
-
-<body>
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/static/js/initTheme.js"></script>
-    <!-- Start content here -->
-
-    <!-- End content -->
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/static/js/components/dark.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/js/app.js"></script>
-
-    <!-- Need: Apexcharts -->
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/extensions/apexcharts/apexcharts.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/static/js/pages/dashboard.js"></script>
-</body>
-
-</html>
-```
-
-#### CDN Prefix
-
-You can use the url with a prefix like this:
-```
-https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo
-```
-
-A simple example:
-```
-https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/css/app.css
-```
-
-## Community Mazer-based open sources
-
-- [CodeIgniter 4](https://github.com/irsyadulibad/mazer-codeigniter) by [@irsyadulibad](https://github.com/irsyadulibad)
-- [Laravel Mazer Starter](https://github.com/billalxcode/laravel-mazer-starter) by [@billalxcode](https://github.com/billalxcode)
-- [Nuxt](https://github.com/fzn0x/mazer-nuxt) by [@fzn0x](https://github.com/fzn0x)
-- [React JS Component Library](https://github.com/fachryansyah/react-mazer-ui) by [@fachryansyah](https://github.com/fachryansyah/)
-- [Adonisjs 5](https://github.com/afman42/mazer-adonisjs) by [@afman42](https://github.com/afman42/)
-- [Django](https://github.com/bimbims125/mazer-django) by [@bimbims125](https://github.com/bimbims125/)
-- [Flask](https://github.com/antheiz/mazer-flask) by [@antheiz](https://github.com/antheiz/)
-- [Symfony 6.3 (Mazer 2.1.0)](https://github.com/TheoD02/mazer-symfony-6.3/tree/mazer-2.1.0) by [@theod02](ttps://github.com/TheoD02)
-- [Spring-Thymeleaf](https://github.com/deyhay-enterprise/spring-project-mazer-template) by [@hi-rullah](https://github.com/hi-rullah)
-- [Ruby on Rails](https://github.com/noesya/mazer-rails) by [@noesya](https://github.com/noesya)
-- [Yii2](https://github.com/anovsiradj/yii2-theme-mazer) by [@anovsiradj](https://github.com/anovsiradj)
-- [Next JS](https://github.com/dipras/next-mazer) by [@dipras](https://github.com/dipras)
-- Did you make in another framework or tools? Open up Pull Requests and put yours here! 😃
-
-## Contributing
-
-Please follow [Contributing Guide](./CONTRIBUTING.md) before contributing.
-
-## License
-
-Mazer is under [MIT License](./LICENSE).
-
-## Author
-
-Mazer is created by <a href="https://saugi.me">Saugi</a>.
-
-## Sponsors
-
-![zuramai's sponsors](https://raw.githubusercontent.com/zuramai/static/main/sponsors.svg)
+This project is based on [Mazer](https://github.com/zuramai/mazer) which is licensed under the [MIT License](LICENSE).

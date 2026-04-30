@@ -1,0 +1,39 @@
+﻿{
+  "stats": {
+    "revenue": { "value": 128450.75, "change": 12.4, "trend": "up" },
+    "orders": { "value": 3842, "change": 8.2, "trend": "up" },
+    "customers": { "value": 21563, "change": 5.1, "trend": "up" },
+    "products": { "value": 412, "change": -2.3, "trend": "down" }
+  },
+  "recentOrders": [
+    { "id": "ORD-10045", "customer": "Arjun Sharma", "product": "Wireless Headphones", "date": "2026-04-29", "amount": 3499, "status": "Delivered" },
+    { "id": "ORD-10044", "customer": "Priya Nair", "product": "Smart Watch Pro", "date": "2026-04-29", "amount": 12999, "status": "Processing" },
+    { "id": "ORD-10043", "customer": "Rahul Mehta", "product": "Gaming Keyboard", "date": "2026-04-28", "amount": 4599, "status": "Shipped" },
+    { "id": "ORD-10042", "customer": "Sneha Reddy", "product": "4K Webcam", "date": "2026-04-28", "amount": 6799, "status": "Delivered" },
+    { "id": "ORD-10041", "customer": "Vikram Patel", "product": "USB-C Hub 7-in-1", "date": "2026-04-27", "amount": 2199, "status": "Cancelled" },
+    { "id": "ORD-10040", "customer": "Ananya Iyer", "product": "Bluetooth Speaker", "date": "2026-04-27", "amount": 5499, "status": "Delivered" },
+    { "id": "ORD-10039", "customer": "Dev Kapoor", "product": "Mechanical Keyboard", "date": "2026-04-26", "amount": 7299, "status": "Shipped" },
+    { "id": "ORD-10038", "customer": "Meera Joshi", "product": "Noise Cancelling Earbuds", "date": "2026-04-26", "amount": 8999, "status": "Processing" }
+  ],
+  "topProducts": [
+    { "name": "Smart Watch Pro", "category": "Wearables", "sales": 342, "revenue": 4445658, "stock": 89, "rating": 4.8 },
+    { "name": "Wireless Headphones", "category": "Audio", "sales": 510, "revenue": 1784490, "stock": 145, "rating": 4.6 },
+    { "name": "Gaming Keyboard", "category": "Peripherals", "sales": 287, "revenue": 1319913, "stock": 62, "rating": 4.5 },
+    { "name": "4K Webcam", "category": "Cameras", "sales": 198, "revenue": 1346202, "stock": 37, "rating": 4.7 },
+    { "name": "Bluetooth Speaker", "category": "Audio", "sales": 421, "revenue": 2314929, "stock": 110, "rating": 4.4 }
+  ],
+  "revenueChart": {
+    "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "data": [45200, 52800, 49500, 61000, 58700, 72300, 68900, 81200, 76500, 92400, 88100, 128450]
+  },
+  "categoryChart": {
+    "labels": ["Audio", "Wearables", "Peripherals", "Cameras", "Accessories"],
+    "data": [30, 25, 20, 15, 10]
+  },
+  "topCustomers": [
+    { "name": "Arjun Sharma", "email": "arjun@example.com", "totalOrders": 18, "totalSpent": 87650, "avatar": "AS" },
+    { "name": "Priya Nair", "email": "priya@example.com", "totalOrders": 24, "totalSpent": 125300, "avatar": "PN" },
+    { "name": "Rahul Mehta", "email": "rahul@example.com", "totalOrders": 11, "totalSpent": 43200, "avatar": "RM" },
+    { "name": "Sneha Reddy", "email": "sneha@example.com", "totalOrders": 31, "totalSpent": 198700, "avatar": "SR" }
+  ]
+}

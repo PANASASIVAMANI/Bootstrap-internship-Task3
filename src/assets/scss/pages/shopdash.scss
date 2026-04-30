@@ -1,0 +1,128 @@
+﻿// ShopDash Custom Styles
+// E-Commerce Analytics Dashboard Theme
+
+// ─── Color Overrides ──────────────────────────────────────────────────────────
+$primary: #435ebe;
+$primary-dark: #2f47a8;
+
+// ─── Stat Cards ───────────────────────────────────────────────────────────────
+.stat-card {
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 12px 0 0 12px;
+  }
+
+  &.stat-card-revenue::before { background: #435ebe; }
+  &.stat-card-orders::before  { background: #28ab55; }
+  &.stat-card-customers::before { background: #eaca4a; }
+  &.stat-card-products::before { background: #f3616d; }
+}
+
+// ─── Icon Backgrounds ──────────────────────────────────────────────────────────
+.stats-icon-lg {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  i { font-size: 1.6rem; }
+}
+
+.bg-primary-light  { background: rgba(67, 94, 190, 0.12); }
+.bg-success-light  { background: rgba(40, 171, 85, 0.12); }
+.bg-warning-light  { background: rgba(234, 202, 74, 0.15); }
+.bg-danger-light   { background: rgba(243, 97, 109, 0.12); }
+
+// ─── Customer Avatar ─────────────────────────────────────────────────────────
+.customer-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #435ebe, #7b93d6);
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+// ─── Product Rank Badge ───────────────────────────────────────────────────────
+.product-rank {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(67, 94, 190, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+// ─── Sidebar Brand Override ───────────────────────────────────────────────────
+.sidebar-wrapper .sidebar-header .logo a {
+  font-weight: 800;
+  font-size: 1.4rem;
+  text-decoration: none;
+  color: #435ebe;
+  letter-spacing: -0.5px;
+
+  &::before {
+    content: "🛒 ";
+  }
+}
+
+// ─── Card Animation ───────────────────────────────────────────────────────────
+.card {
+  animation: fadeInUp 0.4s ease both;
+  border-radius: 12px;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ─── Table Styling ────────────────────────────────────────────────────────────
+#orders-table {
+  th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #adb5bd;
+    font-weight: 600;
+    border-top: none;
+  }
+  td { vertical-align: middle; }
+}
+
+// ─── Page Heading Gradient ────────────────────────────────────────────────────
+.page-heading h3 {
+  background: linear-gradient(135deg, #435ebe 0%, #7b93d6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}

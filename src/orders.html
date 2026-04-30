@@ -1,0 +1,107 @@
+﻿{% set title = 'Orders' %}
+{% set filename = 'orders.html' %}
+{% extends 'src/layouts/master.html' %}
+{% block styles %}
+<link rel="stylesheet" href="assets/scss/pages/shopdash.scss">
+{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-8 order-md-1 order-last">
+                <h3>Orders</h3>
+                <p class="text-subtitle text-muted">Track and manage all orders</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <!-- Filter Badges -->
+    <section class="row mb-3">
+        <div class="col-12">
+            <div class="d-flex gap-2 flex-wrap" id="status-filters">
+                <button class="btn btn-sm btn-primary rounded-pill active-filter" data-filter="all">All Orders</button>
+                <button class="btn btn-sm btn-outline-success rounded-pill" data-filter="Delivered">Delivered</button>
+                <button class="btn btn-sm btn-outline-warning rounded-pill" data-filter="Processing">Processing</button>
+                <button class="btn btn-sm btn-outline-info rounded-pill" data-filter="Shipped">Shipped</button>
+                <button class="btn btn-sm btn-outline-danger rounded-pill" data-filter="Cancelled">Cancelled</button>
+            </div>
+        </div>
+    </section>
+    <section class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">All Orders</h4>
+                    <span class="badge bg-primary rounded-pill" id="orders-count">Loading...</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Product</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody">
+                                <tr><td colspan="7" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+const DATA_URL = 'assets/static/data.json';
+const fmt = { currency: (v) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(v) };
+const statusBadge = (s) => { const m = { Delivered:'success', Processing:'warning', Shipped:'info', Cancelled:'danger' }; return `<span class="badge bg-${m[s]||'secondary'} rounded-pill">${s}</span>`; };
+let allOrders = [];
+
+function renderOrders(orders) {
+  const tbody = document.getElementById('orders-tbody');
+  const count = document.getElementById('orders-count');
+  count.textContent = `${orders.length} orders`;
+  tbody.innerHTML = orders.map(o => `
+    <tr>
+      <td><a href="#" class="text-primary fw-semibold">${o.id}</a></td>
+      <td>${o.customer}</td>
+      <td class="text-muted">${o.product}</td>
+      <td>${o.date}</td>
+      <td class="fw-semibold">${fmt.currency(o.amount)}</td>
+      <td>${statusBadge(o.status)}</td>
+      <td><button class="btn btn-sm btn-outline-primary rounded-pill">Details</button></td>
+    </tr>
+  `).join('');
+}
+
+async function init() {
+  const res = await fetch(DATA_URL);
+  const data = await res.json();
+  allOrders = data.recentOrders;
+  renderOrders(allOrders);
+
+  document.getElementById('status-filters').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-filter]');
+    if (!btn) return;
+    document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('btn-primary','active-filter'));
+    btn.classList.add('btn-primary','active-filter');
+    const f = btn.dataset.filter;
+    renderOrders(f === 'all' ? allOrders : allOrders.filter(o => o.status === f));
+  });
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+{% endblock %}
+
+
+

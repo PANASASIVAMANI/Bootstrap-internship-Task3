@@ -1,0 +1,93 @@
+﻿{% set title = 'Analytics' %}
+{% set filename = 'analytics.html' %}
+{% extends 'src/layouts/master.html' %}
+{% block styles %}
+<link rel="stylesheet" href="assets/scss/pages/shopdash.scss">
+{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-8 order-md-1 order-last">
+                <h3>Analytics</h3>
+                <p class="text-subtitle text-muted">Deep dive into your store performance</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <section class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header"><h4 class="card-title">Monthly Revenue Trend</h4></div>
+                <div class="card-body"><canvas id="revenueBar" height="300"></canvas></div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header"><h4 class="card-title">Category Distribution</h4></div>
+                <div class="card-body"><canvas id="categoryPie" height="300"></canvas></div>
+            </div>
+        </div>
+    </section>
+    <section class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header"><h4 class="card-title">Product Performance Summary</h4></div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr><th>Product</th><th>Category</th><th>Sales</th><th>Revenue</th><th>Stock</th><th>Rating</th></tr>
+                            </thead>
+                            <tbody id="analytics-products-tbody">
+                                <tr><td colspan="6" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block js %}
+<script src="assets/static/js/chart.umd.js"></script>
+<script>
+const DATA_URL = 'assets/static/data.json';
+const fmt = { currency: (v) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(v), number: (v) => new Intl.NumberFormat('en-IN').format(v) };
+async function init() {
+  const res = await fetch(DATA_URL);
+  const data = await res.json();
+
+  new Chart(document.getElementById('revenueBar'), {
+    type: 'bar',
+    data: { labels: data.revenueChart.labels, datasets: [{ label: 'Revenue (INR)', data: data.revenueChart.data, backgroundColor: 'rgba(67,94,190,0.7)', borderRadius: 6 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ y:{ ticks:{ callback: v => '₹'+(v/1000).toFixed(0)+'K' } } } }
+  });
+
+  new Chart(document.getElementById('categoryPie'), {
+    type: 'pie',
+    data: { labels: data.categoryChart.labels, datasets: [{ data: data.categoryChart.data, backgroundColor: ['#435ebe','#28ab55','#eaca4a','#f3616d','#56b6f7'], borderWidth: 0 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom' } } }
+  });
+
+  const tbody = document.getElementById('analytics-products-tbody');
+  const stars = (r) => '★'.repeat(Math.round(r)) + '☆'.repeat(5-Math.round(r));
+  tbody.innerHTML = data.topProducts.map(p => `
+    <tr>
+      <td class="fw-semibold">${p.name}</td>
+      <td>${p.category}</td>
+      <td>${fmt.number(p.sales)}</td>
+      <td class="text-primary">${fmt.currency(p.revenue)}</td>
+      <td><span class="badge ${p.stock<50?'bg-danger':'bg-success'} rounded-pill">${p.stock}</span></td>
+      <td><span class="text-warning">${stars(p.rating)}</span> ${p.rating}</td>
+    </tr>
+  `).join('');
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+{% endblock %}
+
+
+

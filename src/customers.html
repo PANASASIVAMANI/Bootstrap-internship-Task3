@@ -1,0 +1,60 @@
+﻿{% set title = 'Customers' %}
+{% set filename = 'customers.html' %}
+{% extends 'src/layouts/master.html' %}
+{% block styles %}
+<link rel="stylesheet" href="assets/scss/pages/shopdash.scss">
+{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-8 order-md-1 order-last">
+                <h3>Customers</h3>
+                <p class="text-subtitle text-muted">Your top-performing customers</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <section class="row" id="customer-cards-row">
+        <div class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+    </section>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+const DATA_URL = 'assets/static/data.json';
+const fmt = { currency: (v) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(v) };
+async function init() {
+  const res = await fetch(DATA_URL);
+  const data = await res.json();
+  const row = document.getElementById('customer-cards-row');
+  row.innerHTML = data.topCustomers.map(c => `
+    <div class="col-12 col-md-6 col-lg-3 mb-4">
+      <div class="card text-center h-100 customer-card">
+        <div class="card-body pt-4">
+          <div class="customer-avatar mx-auto mb-3" style="width:64px;height:64px;font-size:1.3rem;border-radius:50%;background:linear-gradient(135deg,#435ebe,#7b93d6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">${c.avatar}</div>
+          <h5 class="fw-bold mb-1">${c.name}</h5>
+          <p class="text-muted small mb-3">${c.email}</p>
+          <div class="row text-center border-top pt-3">
+            <div class="col-6">
+              <div class="fw-bold text-primary">${c.totalOrders}</div>
+              <small class="text-muted">Orders</small>
+            </div>
+            <div class="col-6">
+              <div class="fw-bold text-success">${fmt.currency(c.totalSpent)}</div>
+              <small class="text-muted">Spent</small>
+            </div>
+          </div>
+          <button class="btn btn-outline-primary rounded-pill btn-sm mt-3 w-100">View Profile</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+{% endblock %}
+
+
+

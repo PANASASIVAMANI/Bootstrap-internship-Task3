@@ -1,0 +1,64 @@
+﻿{% set title = 'Settings' %}
+{% set filename = 'settings.html' %}
+{% extends 'src/layouts/master.html' %}
+{% block styles %}
+<link rel="stylesheet" href="assets/scss/pages/shopdash.scss">
+{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-8 order-md-1 order-last">
+                <h3>Settings</h3>
+                <p class="text-subtitle text-muted">Configure your ShopDash preferences</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <section class="row">
+        <div class="col-12 col-md-8">
+            <div class="card">
+                <div class="card-header"><h4 class="card-title">Store Information</h4></div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3"><label class="form-label fw-semibold">Store Name</label><input type="text" class="form-control" value="ShopDash Store"></div>
+                        <div class="mb-3"><label class="form-label fw-semibold">Store Email</label><input type="email" class="form-control" value="admin@shopdash.com"></div>
+                        <div class="mb-3"><label class="form-label fw-semibold">Currency</label>
+                            <select class="form-select"><option selected>Indian Rupee (INR)</option><option>US Dollar (USD)</option><option>Euro (EUR)</option></select>
+                        </div>
+                        <div class="mb-3"><label class="form-label fw-semibold">Time Zone</label>
+                            <select class="form-select"><option selected>Asia/Kolkata (IST)</option><option>UTC</option><option>America/New_York (EST)</option></select>
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-header"><h4 class="card-title">Notifications</h4></div>
+                <div class="card-body">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="notif-orders" checked>
+                        <label class="form-check-label" for="notif-orders">New Order Alerts</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="notif-lowstock" checked>
+                        <label class="form-check-label" for="notif-lowstock">Low Stock Warnings</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="notif-customers">
+                        <label class="form-check-label" for="notif-customers">New Customer Sign-ups</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="notif-reports" checked>
+                        <label class="form-check-label" for="notif-reports">Weekly Reports</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+

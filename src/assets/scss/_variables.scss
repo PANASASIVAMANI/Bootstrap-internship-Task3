@@ -1,4 +1,4 @@
-// Variables
+﻿// Variables
 //
 // Variables should follow the `$component-state-property-size` formula for
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
@@ -95,7 +95,7 @@ $btn-colors: (
 //
 // Settings for the `<body>` element.
 
-$body-bg: #f2f7ff !default;
+$body-bg: #f0f4ff !default;
 $body-color: #607080 !default;
 $body-text-align: null !default;
 
@@ -1633,3 +1633,4 @@ $choices-highlight-bg:      $card-bg;
 // Placeholder Bootstrap
 $placeholder-opacity-max:           .5;
 $placeholder-opacity-min:           .2;
+

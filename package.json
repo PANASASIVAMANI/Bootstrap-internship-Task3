@@ -97,5 +97,8 @@
         "dist.zip"
       ]
     }
+  },
+  "optionalDependencies": {
+    "@esbuild/win32-x64": "^0.28.0"
   }
 }

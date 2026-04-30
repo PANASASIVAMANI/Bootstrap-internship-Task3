@@ -1,0 +1,83 @@
+﻿{% set title = 'Products' %}
+{% set filename = 'products.html' %}
+{% extends 'src/layouts/master.html' %}
+{% block styles %}
+<link rel="stylesheet" href="assets/scss/pages/shopdash.scss">
+{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-8 order-md-1 order-last">
+                <h3>Products</h3>
+                <p class="text-subtitle text-muted">Manage your product catalog</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <section class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Product Catalog</h4>
+                    <button class="btn btn-primary rounded-pill btn-sm"><i class="bi bi-plus-lg me-1"></i>Add Product</button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Sales</th>
+                                    <th>Revenue</th>
+                                    <th>Stock</th>
+                                    <th>Rating</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-tbody">
+                                <tr><td colspan="7" class="text-center text-muted py-4"><div class="spinner-border spinner-border-sm text-primary me-2"></div>Loading products...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+const DATA_URL = 'assets/static/data.json';
+const fmt = {
+  currency: (v) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(v),
+  number: (v) => new Intl.NumberFormat('en-IN').format(v),
+};
+const stars = (r) => '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r));
+async function init() {
+  const res = await fetch(DATA_URL);
+  const data = await res.json();
+  const tbody = document.getElementById('products-tbody');
+  tbody.innerHTML = data.topProducts.map(p => `
+    <tr>
+      <td class="fw-semibold">${p.name}</td>
+      <td><span class="badge bg-light text-dark">${p.category}</span></td>
+      <td>${fmt.number(p.sales)}</td>
+      <td class="text-primary fw-semibold">${fmt.currency(p.revenue)}</td>
+      <td><span class="badge ${p.stock < 50 ? 'bg-danger' : 'bg-success'} rounded-pill">${p.stock} in stock</span></td>
+      <td><span class="text-warning">${stars(p.rating)}</span> <small class="text-muted">${p.rating}</small></td>
+      <td>
+        <button class="btn btn-sm btn-outline-primary me-1 rounded-pill">Edit</button>
+        <button class="btn btn-sm btn-outline-danger rounded-pill">Delete</button>
+      </td>
+    </tr>
+  `).join('');
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+{% endblock %}
+
+
+

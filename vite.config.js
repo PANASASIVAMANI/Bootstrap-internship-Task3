@@ -1,4 +1,4 @@
-import { defineConfig, normalizePath, build } from 'vite'
+﻿import { defineConfig, normalizePath, build } from 'vite'
 import fs from 'fs'
 import path, { resolve } from 'path'
 import { fileURLToPath } from 'url';
@@ -30,7 +30,7 @@ const getVariables = (mode) => {
     Object.keys(files).forEach((filename) => {
         if (filename.includes('layouts')) filename = `layouts/${filename}`
         variables[filename + '.html'] = {
-            web_title: "Mazer Admin Dashboard",
+            web_title: "ShopDash | E-Commerce Dashboard",
             sidebarItems,
             horizontalMenuItems,
             isDev: mode === 'development'
